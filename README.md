@@ -229,9 +229,11 @@ The stopped event is emitted when the video conference has ended or stopped.
 </script>
 ```
 
-````html
-### joined The joined event is emitted when the user joins the video
-conferencing room. ```html
+### joined
+
+The joined event is emitted when the user joins the video conferencing room.
+
+```html
 <template>
   <VideoConference @joined="onJoined" />
 </template>
@@ -245,7 +247,7 @@ conferencing room. ```html
     },
   };
 </script>
-````
+```
 
 ### left
 
