@@ -1,9 +1,9 @@
 <template>
-  <Conference />
+  <VideoConference roomName="dare-devil" />
 </template>
 
 <script setup>
-// import VideoConferencing from "./components/VideoConferencing.vue";
+import { VideoConference } from "vue-video-conference";
 </script>
 
 <style lang="scss">

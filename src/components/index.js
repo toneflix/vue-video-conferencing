@@ -1,15 +1,22 @@
 import AudioPlayList from "./AudioPlayList.vue";
-import DeviceSelector from "./DeviceSelector.vue";
-import MediaTrack from "./MediaTrack.vue";
+import Loader from "./WaitingLoader.vue";
 import SceneModal from "./SceneModal.vue";
+import Selector from "./DeviceSelector.vue";
+import Track from "./MediaTrack.vue";
 import VideoConferencing from "./VideoConferencing.vue";
-import WaitingLoader from "./WaitingLoader.vue";
 
 export default {
+    VideoConference: VideoConferencing,
     VoiceConference: AudioPlayList,
-    DeviceSelector,
-    WaitingLoader,
-    MediaTrack,
-    SceneModal,
-    Conference: VideoConferencing,
+    DeviceSelector: Selector,
+    WaitingLoader: Loader,
+    MediaTrack: Track,
+    ConModal: SceneModal,
 }
+
+export const VoiceConference = AudioPlayList;
+export const DeviceSelector = Selector;
+export const WaitingLoader = Loader;
+export const MediaTrack = Track;
+export const ConModal = SceneModal;
+export const VideoConference = VideoConferencing;

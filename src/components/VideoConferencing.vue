@@ -56,7 +56,8 @@
         </div>
       </div>
       <slot
-        name="buttons"
+        name="controls"
+        :toggleFullscreen="toggleFullscreen"
         :activeVideoTrack="activeVideoTrack"
         :videoTracks="videoTracks"
         :conference="conference"
@@ -94,7 +95,7 @@
           <button
             class="con-control-btn con-hover-bg con-text-green"
             @click="start"
-            v-if="!status.show"
+            v-if="!status.show && !autoConnect"
           >
             <vue-feather
               :type="`phone${status.loading ? '-call' : ''}`"
@@ -150,6 +151,7 @@ import WaitingLoader from "./WaitingLoader.vue";
 import AudioPlayList from "./AudioPlayList.vue";
 import MediaTrack from "./MediaTrack.vue";
 import DeviceSelector from "./DeviceSelector.vue";
+import VueFeather from "vue-feather";
 import { resize } from "../constants/jitsi.utils";
 import { useResizeObserver } from "@vueuse/core";
 import { UseFullscreen } from "@vueuse/components";
@@ -160,9 +162,18 @@ import {
 } from "../constants/jitsi.utils.js";
 import bus from "../constants/EventBus";
 import JMeetJS from "@joinera/lib-jitsi-meet";
-import { defineProps, onBeforeUnmount, ref, watch } from "vue";
+import { defineProps, onBeforeUnmount, onMounted, ref, watch } from "vue";
 
-const emit = defineEmits(["error"]);
+const emit = defineEmits([
+  "error",
+  "ready",
+  "left",
+  "joined",
+  "started",
+  "stopped",
+  "connected",
+  "trackAdded",
+]);
 
 const props = defineProps({
   msg: String,
@@ -172,16 +183,36 @@ const props = defineProps({
   },
   roomName: {
     type: String,
-    default: "proffessors-hangout",
+    required: true,
+    validator: (val) => {
+      const check =
+        val.length > 3 && !/\s/.test(val) && val === val.toLowerCase();
+      if (!check) {
+        console.error(
+          "Room name must be at least 4 characters long, have no spaces, and contain no capital letters"
+        );
+      }
+      return check;
+    },
   },
   userName: {
     type: String,
-    default: "proffessor",
+    validator: (val) => {
+      // Ensure user name is at least 3 characters long and has no spaces or capital letters
+      const check =
+        val.length < 1 || (!/\s/.test(val) && val === val.toLowerCase());
+      if (!check) {
+        console.error(
+          "User name must have no spaces, and contain no capital letters"
+        );
+      }
+      return check;
+    },
   },
-  userPassword: {
+  roomPassword: {
     type: String,
   },
-  videoContraints: {
+  videoConstraints: {
     type: String,
     default: "360", //720
   },
@@ -205,6 +236,10 @@ const props = defineProps({
     default: 0,
   },
   alwaysShowControls: {
+    type: Boolean,
+    default: false,
+  },
+  autoConnect: {
     type: Boolean,
     default: false,
   },
@@ -284,6 +319,7 @@ const removeTrack = (track) => {
 // Define event listeners in a separate object for readability and maintainability
 const lstnrs = {
   TRACK_ADDED: (track) => {
+    emit("trackAdded", track);
     bus.emit("TRACK_ADDED", track);
     addTrack(track);
   },
@@ -307,6 +343,7 @@ const lstnrs = {
     }
   },
   USER_LEFT: (user) => {
+    emit("left", user);
     bus.emit("USER_LEFT", user);
     if (conference.value.participants.size === 0) {
       stop();
@@ -325,17 +362,30 @@ const lstnrs = {
   },
 };
 
+const setName = (name) => {
+  if (!name) {
+    // If no name is provided, generate a random one
+    const letters = "abcdefghijklmnopqrstuvwxyz";
+    name = "";
+    for (let i = 0; i < 10; i++) {
+      name += letters[Math.floor(Math.random() * letters.length)];
+    }
+  }
+  return name;
+};
+
 const connectNow = () => {
   const roomName = props.roomName;
-  const username = props.userName;
+  const username = setName(props.userName);
   connect(roomName, props.appToken)
     .then((connection) => {
+      emit("connected");
       return createAndJoinRoom(
         connection,
         roomName,
         username,
-        props.userPassword,
-        props.videoContraints
+        props.roomPassword,
+        props.videoConstraints
       );
     })
     .then((room) => {
@@ -359,6 +409,7 @@ const connectNow = () => {
 
       status.value.loading = false;
       status.value.show = true;
+      emit("joined", room);
     })
     .catch((error) => {
       console.error(error);
@@ -385,6 +436,7 @@ const start = () => {
   status.value.loading = true;
   setTimeout(() => {
     connectNow();
+    emit("started");
   }, 1000);
 };
 
@@ -402,6 +454,7 @@ const stop = () => {
       localAudioTrack.value = null;
       localVideoTrack.value = null;
       baseKey.value = new Date().getTime();
+      emit("stopped");
     });
 
     // Remove EventListeners
@@ -418,6 +471,13 @@ const watcherSc1 = watch(showControls, () => {
     setTimeout(() => {
       resize(props.aspect);
     }, 3);
+  }
+});
+
+onMounted(() => {
+  emit("mounted");
+  if (props.autoConnect) {
+    start();
   }
 });
 

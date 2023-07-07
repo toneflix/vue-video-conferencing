@@ -61,6 +61,7 @@
 </template>
 
 <script setup>
+import VueFeather from "vue-feather";
 import bus from "../constants/EventBus";
 import { computed, onBeforeUnmount, ref, watch } from "vue";
 import { useMouseInElement } from "@vueuse/core";

@@ -51,6 +51,7 @@
 </template>
 
 <script setup>
+import VueFeather from "vue-feather";
 import bus from "../constants/EventBus";
 import { resize } from "../constants/jitsi.utils";
 import { useMouseInElement } from "@vueuse/core";

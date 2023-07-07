@@ -44,6 +44,7 @@
 
 <script setup>
 import JMeetJS from "@joinera/lib-jitsi-meet";
+import VueFeather from "vue-feather";
 import SceneModal from "./SceneModal.vue";
 import { ref } from "vue";
 import bus from "../constants/EventBus";
