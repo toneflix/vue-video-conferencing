@@ -1,0 +1,558 @@
+@mixin audio-only($width, $height, $font-size) {
+  &.audio-only {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .control-box {
+      margin: 5px;
+      top: initial;
+      left: initial;
+      width: $width;
+      height: $height;
+      position: relative;
+      border-radius: 50%;
+      font-size: $font-size;
+      font-weight: 800;
+      i {
+        font-size: 0.57em;
+      }
+    }
+  }
+}
+
+:root {
+  --con-text-color: 30, 144, 255;
+  --con-bg-color: 30, 144, 255;
+}
+@each $i in 1, 2, 3, 4, 5 {
+  .z-#{$i} {
+    z-index: $i;
+  }
+}
+
+.con {
+  /* Modal (background) */
+  &-modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 4;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: black;
+    background-color: rgba(0, 0, 0, 0.4);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    &.show {
+      display: flex;
+      // display: block;
+    }
+
+    /* Modal Content */
+    &-content {
+      position: relative;
+      background-color: #fefefe;
+      margin: auto;
+      padding: 0;
+      border: 1px solid #888;
+      width: 80%;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+        0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      -webkit-animation-name: animatemodal;
+      -webkit-animation-duration: 0.4s;
+      animation-name: animatemodal;
+      animation-duration: 0.4s;
+    }
+
+    /* The Close Button */
+    &-close {
+      color: white;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+
+      &:hover,
+      &:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+      }
+    }
+
+    &-header {
+      padding: 2px 16px;
+      background-color: #cbcbcb;
+      color: white;
+    }
+
+    &-body {
+      padding: 4px 16px;
+    }
+  }
+  /* Add Animation */
+  @-webkit-keyframes animatemodal {
+    from {
+      top: -300px;
+      opacity: 0;
+    }
+    to {
+      top: 0;
+      opacity: 1;
+    }
+  }
+
+  @keyframes animatemodal {
+    from {
+      top: -300px;
+      opacity: 0;
+    }
+    to {
+      top: 0;
+      opacity: 1;
+    }
+  }
+  &-select {
+    position: relative;
+    /*Don't really need this just for demo styling*/
+    width: 100%;
+    min-width: 200px;
+
+    /* IE11 hide native button (thanks Matt!) */
+    &::-ms-expand {
+      display: none;
+    }
+
+    label {
+      width: 100%;
+      display: block;
+    }
+    &:after {
+      content: "<>";
+      font: 17px "Consolas", monospace;
+      color: #333;
+      -webkit-transform: rotate(90deg);
+      -moz-transform: rotate(90deg);
+      -ms-transform: rotate(90deg);
+      transform: rotate(90deg);
+      right: 11px;
+      top: 18px;
+      padding: 0 0 2px;
+      border-bottom: 1px solid #999;
+      /*left line */
+
+      position: absolute;
+      pointer-events: none;
+    }
+
+    & select {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      display: block;
+      width: 100%;
+      height: 50px;
+      margin: 5px 0px;
+      padding: 0px 24px;
+      font-size: 16px;
+      line-height: 1.75;
+      color: #333;
+      background-color: #ffffff;
+      background-image: none;
+      border: 1px solid #cccccc;
+      -ms-word-break: normal;
+      word-break: normal;
+    }
+  }
+  &-control-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    &.requires-focus {
+      transition: all 0.2s;
+      visibility: hidden;
+      position: absolute;
+      left: 50%;
+      right: 50%;
+      min-width: 300px;
+      transform: translate(-50%, -50%);
+      margin-bottom: 50px;
+      bottom: -115px;
+      &.focus-aquired {
+        visibility: visible;
+        bottom: 0;
+      }
+    }
+  }
+
+  &-gap-3 {
+    gap: 3px;
+  }
+  &-mt-md {
+    margin-top: 5px;
+  }
+  &-col-gutter-md,
+  &-col-gutter-y-md {
+    margin-top: -16px;
+  }
+
+  &-col-gutter-md,
+  &-col-gutter-x-md {
+    margin-left: -16px;
+  }
+  &-flex,
+  &-row,
+  &-column {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &-row > .con-col-12,
+  &-row > .con-col-xs-12 {
+    height: auto;
+    width: 100%;
+  }
+  &-flex-column {
+    flex-direction: column;
+  }
+  &-justify-center {
+    justify-content: center;
+  }
+  &-control-btn {
+    --con-bg-color: 49, 49, 49;
+    --con-text-color: 255, 255, 255;
+    border: 0;
+    margin: 0;
+    padding: 2px 3px;
+    cursor: pointer;
+    font-size: 2em;
+    color: rgba(var(--con-text-color), 1);
+    line-height: 0;
+    border-radius: 5px;
+    background: rgba(var(--con-bg-color), 0.439);
+    &:hover {
+      background: rgba(var(--con-bg-color), 0.5) !important;
+      color: rgba(var(--con-text-color), 0.8) !important;
+    }
+  }
+  &-hover-bg {
+    &:hover {
+      background: rgba(var(--con-bg-color), 0.3) !important;
+    }
+  }
+  &-pa-md {
+    padding: 16px;
+  }
+  &-bg {
+    &-red {
+      --con-bg-color: 220, 38, 38;
+      background: rgba(var(--con-bg-color), 1) !important;
+    }
+    &-green {
+      --con-bg-color: 77, 124, 15;
+      background: rgba(var(--con-bg-color), 1) !important;
+    }
+    &-blue {
+      --con-bg-color: 14, 165, 233;
+      background: rgba(var(--con-bg-color), 1) !important;
+    }
+    &-brown {
+      --con-bg-color: 72, 13, 25;
+      background: rgba(var(--con-bg-color), 1) !important;
+    }
+  }
+  &-text {
+    &-red {
+      --con-text-color: 220, 38, 38;
+      color: rgba(var(--con-text-color), 1) !important;
+    }
+    &-green {
+      --con-text-color: 77, 124, 15;
+      color: rgba(var(--con-text-color), 1) !important;
+    }
+    &-blue {
+      --con-text-color: 14, 165, 233;
+      color: rgba(var(--con-text-color), 1) !important;
+    }
+    &-brown {
+      --con-bg-color: 72, 13, 25;
+      color: rgba(var(--con-bg-color), 1) !important;
+    }
+  }
+  &-text {
+    @each $i in (left, right, center, justify) {
+      &-#{$i} {
+        text-align: $i;
+      }
+    }
+  }
+}
+.waiting.banner {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  position: absolute;
+  flex-wrap: wrap;
+  background: rgba(255, 255, 255, 0.851);
+  align-content: center;
+  justify-content: center;
+}
+.audio-container {
+  position: absolute;
+  bottom: 0;
+}
+.Scenary {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 20px;
+  background: rgba(0, 0, 0, 0.935);
+}
+
+/* Container of Screen and Dish */
+.Conference {
+  display: flex;
+  flex: 1;
+  border-radius: 10px;
+  gap: 20px;
+  max-height: 100%;
+  max-width: 100%;
+}
+
+/* Container of Cameras */
+.Dish {
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  align-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  flex: 1;
+  border-radius: 10px;
+  background: #000;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* Camera */
+.Dish > div {
+  position: relative;
+  vertical-align: middle;
+  align-self: center;
+  border-radius: 10px;
+  overflow: hidden;
+  display: inline-block;
+  box-shadow: var(--shadow-dark);
+  background: #fff;
+  animation: show 0.4s ease;
+
+  @include audio-only(100px, 100px, 2em);
+}
+
+/* Video (check the nice property object-fit) */
+.Dish > div video {
+  position: absolute;
+  right: 0;
+  object-fit: cover;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  border-radius: 10px;
+  overflow: hidden;
+  left: 0;
+  top: 0;
+  background-size: cover;
+  overflow: hidden;
+  -webkit-transition: margin-top 1s ease-in-out;
+  -moz-transition: margin-top 1s ease-in-out;
+  -o-transition: margin-top 1s ease-in-out;
+  transition: margin-top 1s ease-in-out;
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+}
+
+/* Animation of Loading Video */
+.Dish > div video.loading {
+  margin-top: 100%;
+}
+
+/* Aspect Ratio Number */
+.Dish div:not(.control-box):after {
+  color: #aaa;
+  font-size: 13px;
+  font-family: Arial, Helvetica, sans-serif;
+  position: absolute;
+  bottom: 20px;
+  left: 23px;
+  font-weight: 100;
+  content: attr(data-aspect);
+  display: block;
+}
+
+/* Gray Diagonal */
+.Dish div:not(.control-box):before {
+  position: absolute;
+  height: 100%;
+  background-size: 100% 100%;
+  width: 100%;
+  opacity: 0.3;
+  font-weight: 100;
+  content: "";
+  display: block;
+}
+.Dish div.audio-only:after,
+.Screen div.audio-only:after {
+  --con-bg-color: 30, 144, 255;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background: rgba(var(--con-bg-color), 1);
+}
+.Screen .control-box,
+.Dish .control-box {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 0.1rem;
+  font-size: 1rem;
+  text-align: center;
+  font-weight: 500;
+  border-radius: 5px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+}
+/* Screen */
+.Screen {
+  flex: 2;
+  background: #000;
+  opacity: 0.8;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+
+  .largeVideoBackground {
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    filter: blur(40px);
+  }
+  & div:not(.control-box) {
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+    @include audio-only(200px, 200px, 2.7em);
+
+    & video {
+      width: inherit;
+      height: inherit;
+      -webkit-transform: scaleX(-1);
+      transform: scaleX(-1);
+    }
+  }
+}
+
+/* Animation of Cameras */
+@keyframes show {
+  0% {
+    opacity: 0;
+    transform: scale(0.4) translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .Scenary {
+    padding: 10px;
+    gap: 10px;
+  }
+  .Conference {
+    flex-direction: column;
+  }
+  .Screen {
+    flex: 1;
+    flex: 1;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    border-radius: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+  .Dish {
+    flex: 1;
+    flex: 1;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+    max-height: 200px;
+    background: transparent;
+    flex-direction: row;
+  }
+  .Dish > div {
+    width: 200px !important;
+    min-height: 100px !important;
+    margin: 5px !important;
+
+    &.audio-only {
+      width: fit-content !important;
+      height: fit-content !important;
+      min-height: fit-content !important;
+    }
+  }
+  .Dish > div video {
+    width: 100%;
+    height: 100%;
+  }
+  .Dish > div video.loading {
+    margin-top: 100%;
+  }
+  // .Dish > div:not(.control-box):after {
+  //   bottom: 10px;
+  //   left: 10px;
+  // }
+  .Dish > div:not(.control-box):before {
+    background-size: 100% 100%;
+  }
+  .Screen .control-box {
+    top: initial;
+    left: 10px;
+    bottom: 10px;
+  }
+}

@@ -1,15 +1,27 @@
 {
   "name": "vue-video-conference",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "build:vue": "rollup -c && rollup -c --environment MINIFY",
+    "build:vue:watch": "rollup -c --watch",
+    "build:style": "sass --no-charset ./src/assets/index.scss | node ./build/print-banner.js > dist/vue-video-conferencing.css && cleancss -o dist/vue-video-conferencing.min.css dist/vue-video-conferencing.css",
+    "build:lib": "rimraf dist && npm run build:vue && npm run build:style",
+    "publish:lib": "npm run build:lib && npm publish"
   },
   "dependencies": {
+    "@joinera/lib-jitsi-meet": "^1.0.1599",
+    "@vueuse/components": "^10.2.1",
+    "@vueuse/core": "^10.2.1",
     "core-js": "^3.8.3",
-    "vue": "^3.2.13"
+    "feather-icons": "^4.29.0",
+    "jquery": "^3.7.0",
+    "mitt": "^3.0.1",
+    "vue": "^3.2.13",
+    "vue-feather": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
@@ -17,8 +29,18 @@
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
-    "eslint": "^7.32.0",
-    "eslint-plugin-vue": "^8.0.3"
+    "clean-css-cli": "^5.6.2",
+    "eslint": "^8.44.0",
+    "eslint-plugin-vue": "^9.15.1",
+    "rimraf": "^5.0.1",
+    "rollup": "^3.26.2",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-vue": "^6.0.0",
+    "sass": "^1.63.6",
+    "sass-loader": "^13.3.2"
+  },
+  "peerDependencies": {
+    "vue": "^3.2.13"
   },
   "eslintConfig": {
     "root": true,
@@ -39,5 +61,32 @@
     "last 2 versions",
     "not dead",
     "not ie 11"
-  ]
+  ],
+  "description": "This is a simple video conferencing library built with Vue.js and Jitsi Meet API (Low Level). The library allows you to create a voice/video conferencing room that allows a one to many connection.",
+  "main": "dist/vue-video-conferencing.cjs",
+  "module": "dist/vue-video-conferencing.mjs",
+  "files": [
+    "dist/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toneflix/vue-video-conferencing.git"
+  },
+  "keywords": [
+    "Jitsi",
+    "Vue",
+    "Video",
+    "Call",
+    "Voice",
+    "Audio",
+    "Conferencing",
+    "Live",
+    "Stream"
+  ],
+  "author": "3m1n3nc3 <legacy@toneflix.com.ng>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/toneflix/vue-video-conferencing/issues"
+  },
+  "homepage": "https://github.com/toneflix/vue-video-conferencing#readme"
 }

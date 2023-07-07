@@ -1,0 +1,60 @@
+.con-ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 100%;
+}
+.con-ellipsis div {
+  position: absolute;
+  top: 35%;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #fff;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.con-ellipsis div:nth-child(1) {
+  left: 8px;
+  animation: con-ellipsis1 0.6s infinite;
+}
+.con-ellipsis div:nth-child(2) {
+  left: 8px;
+  animation: con-ellipsis2 0.6s infinite;
+}
+.con-ellipsis div:nth-child(3) {
+  left: 32px;
+  animation: con-ellipsis2 0.6s infinite;
+}
+.con-ellipsis div:nth-child(4) {
+  left: 56px;
+  animation: con-ellipsis3 0.6s infinite;
+}
+@keyframes con-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes con-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes con-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+}
+.con-loader {
+  font-size: 0.8em;
+  align-items: center;
+  text-shadow: 3px 2px 6px rgba(73, 71, 71, 0.5);
+}
