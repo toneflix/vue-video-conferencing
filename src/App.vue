@@ -1,5 +1,5 @@
 <template>
-  <VideoConference roomName="dare-devil" />
+  <VideoConference debugLevel="ERROR" roomName="dare-devil" />
 </template>
 
 <script setup>

@@ -97,7 +97,6 @@ const configureCall = () => {
 const changeInputOutputDevice = async (selected, type) => {
   if (!props.room) return;
 
-  console.log(selected, type);
   if (type === "audioinput" || type === "videoinput") {
     const track =
       type === "audioinput"
@@ -122,7 +121,6 @@ const changeInputOutputDevice = async (selected, type) => {
       //   if (type === "videoinput") {
       //   }
       // });
-      console.log(bus);
       //   });
     }
   } else if (type === "audiooutput") {

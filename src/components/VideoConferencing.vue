@@ -95,7 +95,7 @@
           <button
             class="con-control-btn con-hover-bg con-text-green"
             @click="start"
-            v-if="!status.show && !autoConnect"
+            v-if="!status.show && (!autoConnect || status.loading)"
           >
             <vue-feather
               :type="`phone${status.loading ? '-call' : ''}`"
@@ -290,7 +290,6 @@ JitsiMeetJS.setLogLevel(JitsiMeetJS.logLevels[LOGLEVEL]);
 const addTrack = (track) => {
   if (track.getType() === "video" && props.allowVideo) {
     videoTracks.value.push(track);
-    console.log(activeVideoTrack.value, localVideoTrack.value);
     if (track.isLocal()) {
       activeVideoTrack.value = track;
       localVideoTrack.value = track;
@@ -394,6 +393,18 @@ const connectNow = () => {
     })
     .then((room) => {
       conference.value = room;
+
+      // Load all event listeners in debug mode and expose the conference object to the window
+      if (props.debugLevel === "DEBUG") {
+        window.conference = room;
+        window.JitsiMeetJS = JitsiMeetJS;
+        Object.keys(JitsiMeetJS.events.conference).forEach((key) => {
+          room.on(JitsiMeetJS.events.conference[key], (e) => {
+            console.log("Conference Event", key, e);
+          });
+        });
+      }
+
       room.setDisplayName(props.displayName);
       room.on(
         JitsiMeetJS.events.conference.DOMINANT_SPEAKER_CHANGED,
@@ -446,7 +457,8 @@ const start = () => {
 };
 
 const stop = () => {
-  watcherSc1();
+  unwatcherSc1();
+  unwatcherMv2();
   if (conference.value?.isJoined()) {
     status.value.loading = true;
     conference.value.leave().then(() => {
@@ -471,13 +483,20 @@ const stop = () => {
   }
 };
 
-const watcherSc1 = watch(showControls, () => {
+const unwatcherSc1 = watch(showControls, () => {
   if (status.value.show) {
     setTimeout(() => {
       resize(props.aspect);
     }, 3);
   }
 });
+
+const unwatcherMv2 = watch(
+  () => status.value.videoMuted,
+  () => {
+    resize(props.aspect);
+  }
+);
 
 onMounted(() => {
   emit("ready");

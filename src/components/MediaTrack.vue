@@ -21,7 +21,7 @@
         autoplay
         ref="trackRef"
         :id="trackId"
-        v-if="!status.videoMuted"
+        v-show="!status.videoMuted"
       ></video>
     </div>
   </div>
@@ -97,6 +97,7 @@ const canvasRef = ref(null);
 const trackRef = ref(null);
 // const tracked = computed(() => props.track);
 const trackId = computed(() => props.track?.getId());
+const inited = ref(false);
 
 const status = ref({
   audioMuted: false,
@@ -144,6 +145,8 @@ const trimName = (str) => {
 const init = (track) => {
   const room = track.conference;
 
+  inited.value = true;
+
   // Resize the track
   resize(props.aspect);
 
@@ -186,11 +189,33 @@ const init = (track) => {
   }
 };
 
+// Watch for changes in the track.
+const unwatchTrack = watch(
+  () => props.track?.track?.id,
+  (track) => {
+    if (props.track && inited.value) {
+      status.value.videoMuted = track.type === "video" && track.muted;
+      status.value.audioMuted = track.type === "audio" && track.muted;
+    }
+  }
+);
+
+// Resize the track when the video is unmuted.
+const unwatchVideo = watch(
+  () => status.value.videoMuted,
+  () => {
+    resize(props.aspect);
+  }
+);
+
 onMounted(() => {
   nextTick().then(() => init(props.track));
 });
 
 onBeforeUnmount(() => {
+  unwatchTrack();
+  unwatchVideo();
+
   // Clean up the track.
   if (trackRef.value) {
     trackRef.value.pause();

@@ -1,8 +1,8 @@
 # Toneflix Vue Video Conferencing
 
-[![npm](https://img.shields.io/npm/v/vue-video-conferencing.svg)](https://www.npmjs.com/package/vue-video-conferencing)
-[![npm](https://img.shields.io/npm/dt/vue-video-conferencing.svg)](https://www.npmjs.com/package/vue-video-conferencing)
-[![npm](https://img.shields.io/npm/l/vue-video-conferencing.svg)](https://www.npmjs.com/package/vue-video-conferencing)
+[![npm](https://img.shields.io/npm/v/vue-video-conference.svg)](https://www.npmjs.com/package/vue-video-conference)
+[![npm](https://img.shields.io/npm/dt/vue-video-conference.svg)](https://www.npmjs.com/package/vue-video-conference)
+[![npm](https://img.shields.io/npm/l/vue-video-conference.svg)](https://www.npmjs.com/package/vue-video-conference)
 
 This is a simple video conferencing library built for Vue.js (Vue 3) with Jitsi Meet API (Low Level).
 The library allows you to create a voice/video conferencing room that allows a one to many connection.
@@ -14,7 +14,7 @@ Supports only Vue >= 3
 ## Installation and usage
 
 ```bash
-$ npm i vue-video-conferencing
+$ npm i vue-video-conference
 ```
 
 `Main.js`
@@ -23,7 +23,7 @@ $ npm i vue-video-conferencing
 import { createApp } from "vue";
 import App from "./App.vue";
 
-import conferencing from "vue-video-conferencing";
+import conferencing from "vue-video-conference";
 
 createApp(App).use(conferencing).mount("#app");
 ```
@@ -46,7 +46,7 @@ It is also possible to use the library directly in your component without instal
 </template>
 
 <script>
-  import { VideoConference } from "vue-video-conferencing";
+  import { VideoConference } from "vue-video-conference";
 
   export default {
     components: {
@@ -69,7 +69,7 @@ It is also possible to use the library directly in your component without instal
 | appToken           | String | null        | the JWT token used to authenticate with the server                                                                                                       |
 | allowVideo         | Bool   | true        | Set to false if you want audio only.                                                                                                                     |
 | allowAudio         | Bool   | true        | Set to false if you want video only.                                                                                                                     |
-| debugLevel         | String | ERROR       | The debug level of the jitsi meet api (ERROR, WARN, INFO, DEBUG, VERBOSE).                                                                               |
+| debugLevel         | String | ERROR       | The debug level of the jitsi meet api (DEBUG, ERROR, INFO, LOG, TRACE, WARN).                                                                            |
 | aspect             | Number | 0           | The aspect ratio of the video [**0** = 4:3, **1** = 16:9, **2** = 1:1, **3** = 1:2]                                                                      |
 | alwaysShowControls | Bool   | false       | Set to true if you want to always show the controls, otherwise they will only show when you hover over the video.                                        |
 
