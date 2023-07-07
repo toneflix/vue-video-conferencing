@@ -8,7 +8,11 @@
     <canvas ref="canvasRef" class="largeVideoBackground"></canvas>
     <div data-aspect="4:3" :class="{ 'audio-only': !!status.videoMuted }">
       <div class="control-box">
-        <span>{{ trimName(track.isLocal() ? "Me" : "Guest") }}</span>
+        <span>{{
+          trimName(
+            track.isLocal() ? "Me" : participant?.getDisplayName() ?? "Guest"
+          )
+        }}</span>
         <vue-feather
           :type="`mic${status.audioMuted ? '-off' : ''}`"
         ></vue-feather>
@@ -29,7 +33,11 @@
     v-else-if="!isAudio"
   >
     <div class="control-box">
-      <span>{{ trimName(track.isLocal() ? "Me" : "Guest") }}</span>
+      <span>{{
+        trimName(
+          track.isLocal() ? "Me" : participant?.getDisplayName() ?? "Guest"
+        )
+      }}</span>
       <vue-feather
         :type="`mic${status.audioMuted ? '-off' : ''}`"
       ></vue-feather>

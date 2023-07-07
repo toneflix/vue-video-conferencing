@@ -209,6 +209,10 @@ const props = defineProps({
       return check;
     },
   },
+  displayName: {
+    type: String,
+    default: "Guest",
+  },
   roomPassword: {
     type: String,
   },
@@ -390,6 +394,7 @@ const connectNow = () => {
     })
     .then((room) => {
       conference.value = room;
+      room.setDisplayName(props.displayName);
       room.on(
         JitsiMeetJS.events.conference.DOMINANT_SPEAKER_CHANGED,
         lstnrs.DOMINANT_SPEAKER_CHANGED
@@ -475,7 +480,7 @@ const watcherSc1 = watch(showControls, () => {
 });
 
 onMounted(() => {
-  emit("mounted");
+  emit("ready");
   if (props.autoConnect) {
     start();
   }

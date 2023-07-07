@@ -75,7 +75,7 @@ It is also possible to use the library directly in your component without instal
 
 ## Slots
 
-### controls
+### #controls
 
 The controls slot allows you to modify or add custom controls to the video conferencing component.
 
