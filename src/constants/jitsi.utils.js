@@ -103,7 +103,13 @@ const getRatio = (aspect) => {
     return ratio[1] / ratio[0];
 };
 
-export const resize = (aspect) => {
+export const resize = (aspect, timeoutKey) => {
+    // If this resize is triggered from a timeout, clear it.
+    if (timeoutKey) {
+        clearTimeout(timeoutKey);
+        timeoutKey = null;
+    }
+
     const margin = 10;
     const ratio = getRatio(aspect)
     let dish = document.querySelector(".Dish");

@@ -3,7 +3,8 @@
 </template>
 
 <script setup>
-import { VideoConference } from "vue-video-conference";
+// import { VideoConference } from "vue-video-conference";
+import VideoConference from "./components/VideoConferencing.vue";
 </script>
 
 <style lang="scss">

@@ -8,11 +8,13 @@
     <canvas ref="canvasRef" class="largeVideoBackground"></canvas>
     <div data-aspect="4:3" :class="{ 'audio-only': !!status.videoMuted }">
       <div class="control-box">
-        <span>{{
-          trimName(
-            track.isLocal() ? "Me" : participant?.getDisplayName() ?? "Guest"
-          )
-        }}</span>
+        <span>
+          {{
+            trimName(
+              track.isLocal() ? "Me" : participant?.getDisplayName() ?? "Guest"
+            )
+          }}
+        </span>
         <vue-feather
           :type="`mic${status.audioMuted ? '-off' : ''}`"
         ></vue-feather>
@@ -33,11 +35,13 @@
     v-else-if="!isAudio"
   >
     <div class="control-box">
-      <span>{{
-        trimName(
-          track.isLocal() ? "Me" : participant?.getDisplayName() ?? "Guest"
-        )
-      }}</span>
+      <span>
+        {{
+          trimName(
+            track.isLocal() ? "Me" : participant?.getDisplayName() ?? "Guest"
+          )
+        }}
+      </span>
       <vue-feather
         :type="`mic${status.audioMuted ? '-off' : ''}`"
       ></vue-feather>
@@ -46,7 +50,7 @@
       autoplay
       ref="trackRef"
       :id="trackId"
-      v-if="!status.videoMuted"
+      v-show="!status.videoMuted"
     ></video>
   </div>
   <div
@@ -142,13 +146,12 @@ const trimName = (str) => {
   return str.substring(0, 2);
 };
 
+const canvasTimeout = ref(null);
+
 const init = (track) => {
   const room = track.conference;
 
   inited.value = true;
-
-  // Resize the track
-  resize(props.aspect);
 
   if (room) {
     // Set the participant
@@ -166,6 +169,11 @@ const init = (track) => {
     participantAudioTrack.value = audioTrack;
   }
 
+  if (canvasTimeout.value) {
+    clearTimeout(canvasTimeout.value);
+    canvasTimeout.value = null;
+  }
+
   if (track && (!props.isAudio || !track.isLocal())) {
     track.attach(trackRef.value);
 
@@ -179,7 +187,7 @@ const init = (track) => {
           (function loop() {
             if (!$this.paused && !$this.ended) {
               ctx.drawImage($this, 0, 0);
-              setTimeout(loop, 1000 / 30); // drawing at 30fps
+              canvasTimeout.value = setTimeout(loop, 1000 / 30); // drawing at 30fps
             }
           })();
         },
@@ -187,24 +195,18 @@ const init = (track) => {
       );
     }
   }
+
+  const resizeTimeout = setTimeout(() => {
+    // Resize the track
+    resize(props.aspect, resizeTimeout);
+  }, 100);
 };
 
 // Watch for changes in the track.
 const unwatchTrack = watch(
-  () => props.track?.track?.id,
+  () => props.track,
   (track) => {
-    if (props.track && inited.value) {
-      status.value.videoMuted = track.type === "video" && track.muted;
-      status.value.audioMuted = track.type === "audio" && track.muted;
-    }
-  }
-);
-
-// Resize the track when the video is unmuted.
-const unwatchVideo = watch(
-  () => status.value.videoMuted,
-  () => {
-    resize(props.aspect);
+    init(track);
   }
 );
 
@@ -214,7 +216,6 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   unwatchTrack();
-  unwatchVideo();
 
   // Clean up the track.
   if (trackRef.value) {

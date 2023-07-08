@@ -13,7 +13,9 @@
         v-if="speakerTrack.getId()"
       >
         <div class="control-box">
-          <span>{{ trimName(speakerTrack.isLocal() ? "Me" : "Guest") }}</span>
+          <span>{{
+            trimName(speakerTrack.isLocal() ? "Me" : ptcpnt(speakerTrack, true))
+          }}</span>
           <vue-feather
             :type="`mic${muted[speakerTrack.getId()] ? '-off' : ''}`"
           ></vue-feather>
@@ -43,7 +45,9 @@
         )"
       >
         <div class="control-box">
-          <span>{{ trimName(track.isLocal() ? "Me" : "Guest") }}</span>
+          <span>
+            {{ trimName(track.isLocal() ? "Me" : ptcpnt(track, true)) }}
+          </span>
           <vue-feather
             :type="`mic${muted[track.getId()] ? '-off' : ''}`"
           ></vue-feather>
@@ -147,6 +151,18 @@ const lstnrs = {
  */
 const trimName = (str) => {
   return str.substring(0, 2);
+};
+
+const ptcpnt = (track, getName) => {
+  const participant = props.conference?.getParticipantById(
+    track.getParticipantId()
+  );
+
+  if (participant && getName === true) {
+    return participant.getDisplayName() ?? "Guest";
+  }
+
+  return participant;
 };
 
 // Watch and set the initial active speaker

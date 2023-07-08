@@ -35,11 +35,11 @@
         <!-- Screen Here -->
         <MediaTrack
           is-active
-          :key="activeVideoKey"
+          :key="activeVideoTrack.getId()"
           :track="activeVideoTrack"
-          v-if="activeVideoTrack && conference?.participants?.size < 2"
           @active-blur="showControls = false"
           @active-focus="showControls = true"
+          v-if="activeVideoTrack && conference?.participants?.size < 2"
         />
         <div class="Dish" v-if="conference?.participants?.size" ref="dishesRef">
           <!-- Dishes Here -->
@@ -121,7 +121,11 @@
               :type="isFullscreen ? 'minimize' : 'maximize'"
             ></vue-feather>
           </button>
-          <DeviceSelector :room="conference" :aspect="aspect" v-if="conference">
+          <DeviceSelector
+            :room="conference"
+            :aspect="aspect"
+            v-if="conference && !isFullscreen"
+          >
             <template #button="{ configDialog }">
               <slot name="configbutton" :configDialog="configDialog">
                 <button
@@ -211,7 +215,6 @@ const props = defineProps({
   },
   displayName: {
     type: String,
-    default: "Guest",
   },
   roomPassword: {
     type: String,
@@ -271,7 +274,6 @@ const audioTracks = ref([]);
 const conference = ref(null);
 const speakerId = ref(null);
 const baseKey = ref(new Date().getTime());
-const activeVideoKey = ref(baseKey.value);
 
 const status = ref({
   loading: false,
@@ -309,7 +311,6 @@ const removeTrack = (track) => {
       (e) => e.getId() !== track.getId()
     );
     if (track.getId() === activeVideoTrack.value?.getId()) {
-      activeVideoKey.value = new Date().getTime();
       activeVideoTrack.value = videoTracks.value[0] ?? null;
     }
   } else if (track.getType() === "audio" && props.allowAudio) {
@@ -353,6 +354,9 @@ const lstnrs = {
     }
   },
   TRACK_MUTE_CHANGED: (track) => {
+    let resizeTimeout = setTimeout(() => {
+      resize(props.aspect, resizeTimeout);
+    }, 10);
     bus.emit("TRACK_MUTE_CHANGED", track);
     if (
       [
@@ -365,7 +369,7 @@ const lstnrs = {
   },
 };
 
-const setName = (name) => {
+const setName = (name, titlecase) => {
   if (!name) {
     // If no name is provided, generate a random one
     const letters = "abcdefghijklmnopqrstuvwxyz";
@@ -373,6 +377,9 @@ const setName = (name) => {
     for (let i = 0; i < 10; i++) {
       name += letters[Math.floor(Math.random() * letters.length)];
     }
+  }
+  if (titlecase) {
+    name = name.replace(/\b\w/g, (l) => l.toUpperCase());
   }
   return name;
 };
@@ -405,7 +412,7 @@ const connectNow = () => {
         });
       }
 
-      room.setDisplayName(props.displayName);
+      room.setDisplayName(setName(props.displayName, true));
       room.on(
         JitsiMeetJS.events.conference.DOMINANT_SPEAKER_CHANGED,
         lstnrs.DOMINANT_SPEAKER_CHANGED
@@ -450,9 +457,11 @@ const muteMe = (type = "audio") => {
 
 const start = () => {
   status.value.loading = true;
-  setTimeout(() => {
+  let startTimeout = setTimeout(() => {
     connectNow();
     emit("started");
+    clearTimeout(startTimeout);
+    startTimeout = null;
   }, 1000);
 };
 
@@ -485,8 +494,8 @@ const stop = () => {
 
 const unwatcherSc1 = watch(showControls, () => {
   if (status.value.show) {
-    setTimeout(() => {
-      resize(props.aspect);
+    let resizeTimeout = setTimeout(() => {
+      resize(props.aspect, resizeTimeout);
     }, 3);
   }
 });
