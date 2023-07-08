@@ -8,7 +8,7 @@ import VideoConference from "./components/VideoConferencing.vue";
 </script>
 
 <style lang="scss">
-@import "./assets/index.scss";
+@import "vue-video-conference/dist/core.css";
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

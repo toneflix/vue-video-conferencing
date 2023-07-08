@@ -56,6 +56,14 @@ It is also possible to use the library directly in your component without instal
 </script>
 ```
 
+### Importing the css
+
+```html
+<style>
+  @import "vue-video-conference/dist/core.css";
+</style>
+```
+
 ## Props
 
 | Prop name          | Type   | Default     | Description                                                                                                                                              |

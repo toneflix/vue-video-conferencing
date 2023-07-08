@@ -8,7 +8,7 @@
     "lint": "vue-cli-service lint",
     "build:vue": "rollup -c && rollup -c --environment MINIFY",
     "build:vue:watch": "rollup -c --watch",
-    "build:style": "sass --no-charset ./src/assets/index.scss | node ./build/print-banner.js > dist/vue-video-conferencing.css && cleancss -o dist/vue-video-conferencing.min.css dist/vue-video-conferencing.css",
+    "build:style": "sass --no-charset ./src/assets/index.scss | node ./build/print-banner.js > dist/core.css && cleancss -o dist/core.min.css dist/core.css",
     "build:lib": "rimraf dist && npm run build:vue && npm run build:style",
     "publish:lib": "npm run build:lib && npm publish"
   },
