@@ -7,9 +7,9 @@
 This is a simple video conferencing library built for Vue.js (Vue 3) with Jitsi Meet API (Low Level).
 The library allows you to create a voice/video conferencing solution with support for one to many connection.
 
-<p align="center">
-    <img width="200" src="/docs/logo.png" alt="Flickity">
-    <img width="200" src="https://vuejs.org/images/logo.png" alt="Vue.js">
+<p style="gap: 10px; display: flex; justify-content: center">
+    <img width="95" height="90" src="logo.png" alt="Toneflix Vue Video Conferencing">
+    <img width="95" src="https://vuejs.org/images/logo.png" alt="Vue.js">
 </p>
 
 ## Vue support
