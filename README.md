@@ -5,7 +5,12 @@
 [![npm](https://img.shields.io/npm/l/vue-video-conference.svg)](https://www.npmjs.com/package/vue-video-conference)
 
 This is a simple video conferencing library built for Vue.js (Vue 3) with Jitsi Meet API (Low Level).
-The library allows you to create a voice/video conferencing room that allows a one to many connection.
+The library allows you to create a voice/video conferencing solution with support for one to many connection.
+
+<p align="center">
+    <img width="200" src="/docs/logo.png" alt="Flickity">
+    <img width="200" src="https://vuejs.org/images/logo.png" alt="Vue.js">
+</p>
 
 ## Vue support
 
@@ -80,6 +85,7 @@ It is also possible to use the library directly in your component without instal
 | debugLevel         | String | ERROR       | The debug level of the jitsi meet api (DEBUG, ERROR, INFO, LOG, TRACE, WARN).                                                                            |
 | aspect             | Number | 0           | The aspect ratio of the video [**0** = 4:3, **1** = 16:9, **2** = 1:1, **3** = 1:2]                                                                      |
 | alwaysShowControls | Bool   | false       | Set to true if you want to always show the controls, otherwise they will only show when you hover over the video.                                        |
+| autoConnect        | Bool   | false       | When set to true, the component will automatically connect to the room when it is mounted.                                                               |
 
 ## Slots
 

@@ -412,7 +412,7 @@ const connectNow = () => {
         });
       }
 
-      room.setDisplayName(setName(props.displayName, true));
+      room.setDisplayName(setName(props.displayName ?? props.userName, true));
       room.on(
         JitsiMeetJS.events.conference.DOMINANT_SPEAKER_CHANGED,
         lstnrs.DOMINANT_SPEAKER_CHANGED
