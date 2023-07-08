@@ -91,6 +91,5 @@
   "bugs": {
     "url": "https://github.com/toneflix/vue-video-conferencing/issues"
   },
-  "homepage": "https://github.com/toneflix/vue-video-conferencing#readme",
-  "packageManager": "yarn@3.6.1"
+  "homepage": "https://github.com/toneflix/vue-video-conferencing#readme"
 }
