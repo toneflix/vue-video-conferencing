@@ -1,7 +1,6 @@
 {
   "name": "vue-video-conference",
   "version": "1.0.4",
-  "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -92,5 +91,6 @@
   "bugs": {
     "url": "https://github.com/toneflix/vue-video-conferencing/issues"
   },
-  "homepage": "https://github.com/toneflix/vue-video-conferencing#readme"
+  "homepage": "https://github.com/toneflix/vue-video-conferencing#readme",
+  "packageManager": "yarn@3.6.1"
 }
