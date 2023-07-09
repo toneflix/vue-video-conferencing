@@ -4,7 +4,7 @@ navbar: true
 heroImage: /images/logo.png
 actionText: Toneflix Vue Video Conferencing →
 actionLink: /guide
-tagline: Vue.js Video Conferencing Library dd
+tagline: Vue.js Video Conferencing Library
 features:
   - title: Video Conferencing
     details: Add video conferencing to your Vue.js application with ease.
