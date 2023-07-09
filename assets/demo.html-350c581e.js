@@ -1,0 +1,1 @@
+import{_ as o,o as c,c as r,b as e}from"./app-50934f8b.js";const t={};function n(m,a){return c(),r("div",null,[e(" <Demo /> "),e(' <VideoConference  debugLevel="ERROR" roomName="dare-devil"/> ')])}const d=o(t,[["render",n],["__file","demo.html.vue"]]);export{d as default};
