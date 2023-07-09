@@ -20,6 +20,9 @@ actions:
   - text: Introduction
     link: /guide/
     type: secondary
+  - text: Lite
+    link: /lite
+    type: secondary
 ---
 
 This is a simple video conferencing library built for Vue.js (Vue 3) with Jitsi Meet API (Low Level).

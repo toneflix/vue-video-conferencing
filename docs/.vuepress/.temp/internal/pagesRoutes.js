@@ -1,6 +1,7 @@
 export const pagesRoutes = [
   ["v-8daa1a0e","/",{"title":""},["/README.md"]],
   ["v-2b30cdfd","/demo.html",{"title":""},[":md"]],
+  ["v-63d7bbdc","/lite.html",{"title":"Toneflix Vue Video Conferencing Lite"},[":md"]],
   ["v-fffb8e28","/guide/",{"title":"Introduction"},["/guide/README.md"]],
   ["v-10633a18","/guide/events.html",{"title":"Events"},[":md"]],
   ["v-fb0f0066","/guide/getting-started.html",{"title":"Get started"},[":md"]],

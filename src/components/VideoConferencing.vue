@@ -173,6 +173,7 @@ const emit = defineEmits([
   "ready",
   "left",
   "joined",
+  "loading",
   "started",
   "stopped",
   "connected",
@@ -433,11 +434,13 @@ const connectNow = () => {
       status.value.loading = false;
       status.value.show = true;
       emit("joined", room);
+      emit("loading", false);
     })
     .catch((error) => {
       console.error(error);
       status.value.show = false;
       status.value.loading = false;
+      emit("loading", false);
       emit("error", error);
     });
 };
@@ -457,6 +460,7 @@ const muteMe = (type = "audio") => {
 
 const start = () => {
   status.value.loading = true;
+  emit("loading", true);
   let startTimeout = setTimeout(() => {
     connectNow();
     emit("started");
@@ -470,6 +474,7 @@ const stop = () => {
   unwatcherMv2();
   if (conference.value?.isJoined()) {
     status.value.loading = true;
+    emit("loading", true);
     conference.value.leave().then(() => {
       status.value.show = false;
       status.value.loading = false;
@@ -481,6 +486,7 @@ const stop = () => {
       localVideoTrack.value = null;
       baseKey.value = new Date().getTime();
       emit("stopped");
+      emit("loading", false);
     });
 
     // Remove EventListeners

@@ -1,6 +1,17 @@
 ---
-home: false
-sidebar: true
+prev:
+  text: Home
+  link: /
+next:
+  text: Getting Started
+  link: /guide/getting-started.html
+sidebar:
+  - text: Home
+    link: /
+  - text: Introduction
+    link: /guide/
+  - text: Getting Started
+    link: /guide/getting-started.html
 ---
 
 # Introduction
