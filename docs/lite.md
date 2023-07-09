@@ -12,6 +12,7 @@ sidebar:
     link: /guide/
   - text: Getting Started
     link: /guide/getting-started.html
+repository:
 ---
 
 # Toneflix Vue Video Conferencing Lite

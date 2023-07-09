@@ -22,6 +22,12 @@ Supports only Vue >= 3
 $ npm i vue-video-conference
 ```
 
+### Install the lite version
+
+```bash
+$ npm i vue-video-conference-lite
+```
+
 `Main.js`
 
 ```js
