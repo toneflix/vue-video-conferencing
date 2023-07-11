@@ -221,8 +221,8 @@ const props = defineProps({
     type: String,
   },
   videoConstraints: {
-    type: String,
-    default: "360", //720
+    type: [String, Number],
+    default: 360, //720
   },
   appToken: {
     type: String,
